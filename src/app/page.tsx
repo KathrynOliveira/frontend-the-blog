@@ -12,19 +12,22 @@ export default async function Home() {
       <Header />
       <section className="grid grid-cols-1 gap-8 mb-16 sm:grid-cols-2 group">
         <Link className="w-full h-full overflow-hidden rounded-xl" href="#">
-          <Image className="group-hover:scale-105 transition" src='/images/bryen_0.png' width={1200} height={720} alt="Titulo do post"></Image>
+          <Image className="w-full h-full object-cover object-center group-hover:scale-105 transition"
+            src='/images/bryen_0.png' width={1200} height={720} alt="Titulo do post" priority></Image>
         </Link>
-        <div>
-
+        <div className="flex flex-col gap-4 sm:justify-center">
+          <time className="text-slate-600 block text-sm/tight" dateTime="2025-04-20">20/04/2025 10:00</time>
+          <h1 className="text-2xl/tight font-extrabold sm:text-xl">
+            <Link href="#">Lorem ipsum dolor sit amet consectetur</Link>
+          </h1>
         </div>
       </section>
-        <Suspense fallback={<Loader/>}>
-            <PostList/>
-        </Suspense>
-
-        <footer>
-          <h1 className="text-6xl font-bold text-center py-8">Footer</h1>
-        </footer>
-      </Container>
+      <Suspense fallback={<Loader/>}>
+        <PostList/>
+      </Suspense>
+      <footer>
+        <h1 className="text-6xl font-bold text-center py-8">Footer</h1>
+      </footer>
+    </Container>
   );
 }
