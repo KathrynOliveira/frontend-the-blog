@@ -1,6 +1,7 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/Header";
 import { Loader } from "@/components/Loader";
+import { PostHeading } from "@/components/PostHeading";
 import PostList from "@/components/PostList";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,9 +18,9 @@ export default async function Home() {
         </Link>
         <div className="flex flex-col gap-4 sm:justify-center">
           <time className="text-slate-600 block text-sm/tight" dateTime="2025-04-20">20/04/2025 10:00</time>
-          <h1 className="text-2xl/tight font-extrabold sm:text-xl">
-            <Link href="#">Lorem ipsum dolor sit amet consectetur</Link>
-          </h1>
+          <PostHeading as="h1" url="#">
+            Lorem, ipsum dolor sit amet consectetur
+          </PostHeading>
         </div>
       </section>
       <Suspense fallback={<Loader/>}>
