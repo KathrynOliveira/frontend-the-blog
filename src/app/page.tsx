@@ -1,6 +1,7 @@
 import { Container } from "@/components/Container";
 import { Header } from "@/components/Header";
 import { Loader } from "@/components/Loader";
+import { PostCoverImage } from "@/components/PostCoverImage";
 import { PostHeading } from "@/components/PostHeading";
 import PostList from "@/components/PostList";
 import Image from "next/image";
@@ -16,12 +17,18 @@ export default async function Home() {
           <Image className="w-full h-full object-cover object-center group-hover:scale-105 transition"
             src='/images/bryen_0.png' width={1200} height={720} alt="Titulo do post" priority></Image>
         </Link>
-        <div className="flex flex-col gap-4 sm:justify-center">
-          <time className="text-slate-600 block text-sm/tight" dateTime="2025-04-20">20/04/2025 10:00</time>
-          <PostHeading as="h1" url="#">
-            Lorem, ipsum dolor sit amet consectetur
-          </PostHeading>
-        </div>
+        <PostCoverImage
+          linkProps={{
+            href: '/post/asdfasdf',
+          }}
+          imageProps={{
+            width: 1200,
+            height: 720,
+            src: '/images/bryen_9.png',
+            alt: 'Alt da imagem',
+            priority: true,
+          }}
+        />
       </section>
       <Suspense fallback={<Loader/>}>
         <PostList/>
