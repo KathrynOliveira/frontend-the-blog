@@ -28,7 +28,7 @@ export default async function PostList() {
                 {post.createdAt}
               </time>
 
-              <PostHeading as="h2" url="#">
+              <PostHeading as="h2" url={`/post/${post.slug}`}>
                 {post.title}
               </PostHeading>
 
