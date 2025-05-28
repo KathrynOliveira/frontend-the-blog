@@ -7,18 +7,8 @@ type PostSlugPageProps = {
 
 export default async function PostSlugPage({ params }: PostSlugPageProps) {
   const { slug } = await params;
+  const post = await findPostBySlugCached(slug);
 
-  let post;
-
-  try {
-    post = await findPostBySlugCached(slug);
-  } catch {
-    post = undefined;
-  }
-
-  if (!post) {
-    notFound();
-  }
 
   return (
     <>
