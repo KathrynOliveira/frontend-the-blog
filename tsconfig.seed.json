@@ -1,0 +1,10 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+      "moduleResolution": "node",
+      "module": "CommonJS", // ou ESNext, desde que compatível
+      "noEmit": false        // necessário para ts-node funcionar
+    },
+    "include": ["src"]
+  }
+  
