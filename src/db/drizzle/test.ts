@@ -1,12 +1,13 @@
-// import { JsonPostRepository } from '@/repositories/post/json-post-repository';
-// import { drizzleDb } from '.';
-// import { postsTable } from './schemas';
+import { drizzleDb } from ".";
+import { postsTable } from "./schemas";
+import { eq } from "drizzle-orm";
 
-// (async () => {
-
-//     const posts = await drizzleDb.select().from(postsTable);
-//     posts.forEach(post => {
-//         console.log(post.id)
-//     })
-
-// })();
+(async () => {
+  await drizzleDb
+    .update(postsTable)
+    .set({
+      title: "Rotina matinal de pessoas altamente eficazes",
+      published: true,
+    })
+    .where(eq(postsTable.slug, "rotina-matinal-de-pessoas-altamente-eficazes"));
+})();

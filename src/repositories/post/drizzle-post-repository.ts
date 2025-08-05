@@ -1,8 +1,6 @@
 import { drizzleDb } from "@/db/drizzle";
 import { PostRepository } from "./post-repository";
 import { PostModel } from "@/models/post/post-model";
-import { postsTable } from "@/db/drizzle/schemas";
-import { desc, eq } from "drizzle-orm";
 
 export class DrizzlePostRepository implements PostRepository {
   async findAllPublic(): Promise<PostModel[]> {
