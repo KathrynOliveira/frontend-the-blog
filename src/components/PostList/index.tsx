@@ -1,6 +1,6 @@
 import { PostCoverImage } from "../PostCoverImage";
 import { PostSummary } from "../PostSummary";
-import { findAllPublicPostsCached } from "@/lib/post/queries";
+import { findAllPublicPostsCached } from "@/lib/post/queries/public";
 
 export default async function PostList() {
   const posts = await findAllPublicPostsCached();
@@ -22,7 +22,7 @@ export default async function PostList() {
             />
             <PostSummary
               postLink={post.slug}
-              postHeading='h2'
+              postHeading="h2"
               createdAt={post.createdAt}
               excerpt={post.excerpt}
               title={post.title}
