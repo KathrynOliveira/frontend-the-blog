@@ -19,13 +19,14 @@ export function MenuAdmin() {
     setIsOpen(false);
   }, [pathname]);
 
-  const navClasses = `bg-slate-900 text-slate-100 rounded-lg flex flex-col mb-8 sm:flex-row sm:flex-wrap sm:overflow-visible sm:h-auto ${
+  const navClasses = `bg-slate-900 dark:bg-slate-100 text-slate-100 dark:text-slate-900 rounded-lg flex flex-col mb-8 sm:flex-row sm:flex-wrap sm:overflow-visible sm:h-auto ${
     !isOpen && "h-10 overflow-hidden"
   }`;
   const linkClasses =
-    "[&>svg]:w-[16px] [&>svg]:h-[16px] px-4 flex transition hover:bg-slate-800 items-center justify-start gap-2 h-10 shrink-0 cursor-pointer";
+    "[&>svg]:w-[16px] [&>svg]:h-[16px] px-4 flex transition hover:bg-slate-800 dark:hover:bg-slate-200 items-center justify-start gap-2 h-10 shrink-0 cursor-pointer";
 
-  const openCloseBtnClasses = "text-blue-200 italic sm:hidden";
+  const openCloseBtnClasses =
+    "text-blue-200 dark:text-blue-800 italic sm:hidden";
   return (
     <nav className={navClasses}>
       <button
