@@ -2,7 +2,7 @@ import { SinglePost } from "@/components/SinglePost";
 import { Loader } from "@/components/Loader";
 
 import { findPublicPostBySlugCached } from "@/lib/post/queries/public";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { Suspense } from "react";
 
 export const dynamic = "force-static";
