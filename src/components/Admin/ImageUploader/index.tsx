@@ -17,7 +17,8 @@ export function ImageUploader() {
     fileInputRef.current.click();
   }
 
-  function handleChange() {
+    function handleChange() {
+      toast.dismiss();
     if (!fileInputRef.current) return;
     const fileInput = fileInputRef.current;
     const file = fileInput?.files?.[0];
@@ -37,8 +38,16 @@ export function ImageUploader() {
       formData.append('file', file);
 
       startTransition(async () => {
-          const result = await uploadImageAction();
-       })
+          const result = await uploadImageAction(formData);
+
+          if (result.error) {
+              toast.error(result.error);
+              fileInput.value = "";
+              return;
+          } 
+
+          toast.success(result.url);
+       });
 
       fileInput.value = "";
   }
