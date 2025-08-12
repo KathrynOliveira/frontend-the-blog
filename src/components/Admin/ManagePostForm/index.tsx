@@ -5,6 +5,7 @@ import { InputCheckbox } from "@/components/InputCheckbox";
 import { InputText } from "@/components/InputText";
 import { MarkdownEditor } from "@/components/MarkdownEditor";
 import { useState } from "react";
+import { ImageUploader } from "../ImageUploader";
 
 export function ManagePostForm() {
   const [contentValue, setContetValue] = useState("");
@@ -18,7 +19,9 @@ export function ManagePostForm() {
           defaultValue="Olá Mundo!"
           disabled
         />
-        <InputCheckbox labelText="Sobrenome" />
+              <InputCheckbox labelText="Sobrenome" />
+              
+              <ImageUploader />
 
         <MarkdownEditor
           labelText="Conteúdo"
