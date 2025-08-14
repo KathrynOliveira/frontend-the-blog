@@ -16,9 +16,7 @@ export function InputText({ labelText = "", ...props }: InputTextProps) {
       )}
       <input
         {...props}
-        className={
-          `bg-white outline-0 text-base/tight ring-2 ring-slate-400 rounded p-2 transition focus:ring-blue-600 placeholder-slate-300 disabled:bg-slate-200 disabled:text-slate-400 disabled:placeholder-slate-300 read-only:bg-slate-100 ${props.className}`
-        }
+        className={`text-slate-900 bg-white outline-0 text-base/tight ring-2 ring-slate-400 rounded p-2 transition focus:ring-blue-600 placeholder-slate-300 hover:text-slate-900 disabled:bg-slate-200 disabled:text-slate-400 disabled:placeholder-slate-300 read-only:bg-slate-100 ${props.className}`}
         id={id}
       />
     </div>
