@@ -6,6 +6,10 @@ import { makePartialPublicPost, PublicPost } from "@/dto/post/dto";
 import { PostModel } from "@/models/post/post-model";
 import {v4 as uuidV4 } from "uuid";
 import { makeSlugFromText } from "@/utils/make-slug-from-text";
+import { drizzleDb } from "@/db/drizzle";
+import { postsTable } from "@/db/drizzle/schemas";
+import { revalidateTag } from "next/cache";
+import { redirect } from "next/navigation";
 
 type CreatePostActionState = {
   formState: PublicPost;
@@ -43,10 +47,10 @@ export async function createPostAction(
     updatedAt: new Date().toISOString(),
     id: uuidV4(),
     slug: makeSlugFromText(validPostData.title),
-  }
-
-  return {
-    formState: newPost,
-    errors: [],
   };
+
+  await drizzleDb.insert(postsTable).values(newPost);
+  revalidateTag('posts');
+  redirect(`/admin/post/${newPost.id}`);
+
 }
