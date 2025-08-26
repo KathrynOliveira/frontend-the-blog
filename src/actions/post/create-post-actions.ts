@@ -4,10 +4,9 @@ import { PostCreateSchema } from "@/lib/post/validations";
 import { getZodErrorMessages } from "@/utils/get-zod-error-messages";
 import { makePartialPublicPost, PublicPost } from "@/dto/post/dto";
 import { PostModel } from "@/models/post/post-model";
-import {v4 as uuidV4 } from "uuid";
+import { v4 as uuidV4 } from "uuid";
 import { makeSlugFromText } from "@/utils/make-slug-from-text";
-import { drizzleDb } from "@/db/drizzle";
-import { postsTable } from "@/db/drizzle/schemas";
+import { postRepository } from "@/repositories/post";
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -20,19 +19,19 @@ export async function createPostAction(
   prevState: CreatePostActionState,
   formData: FormData
 ): Promise<CreatePostActionState> {
-    // TODO: verificar se o usuário tá logado
+  // TODO: verificar se o usuário tá logado
 
   if (!(formData instanceof FormData)) {
     return {
       formState: prevState.formState,
-      errors: ['Dados inválidos'],
+      errors: ["Dados inválidos"],
     };
   }
 
   const formDataToObj = Object.fromEntries(formData.entries());
   const zodParsedObj = PostCreateSchema.safeParse(formDataToObj);
 
-  if (!zodParsedObj.success) { 
+  if (!zodParsedObj.success) {
     const errors = getZodErrorMessages(zodParsedObj.error.format());
     return {
       errors,
@@ -49,8 +48,22 @@ export async function createPostAction(
     slug: makeSlugFromText(validPostData.title),
   };
 
-  await drizzleDb.insert(postsTable).values(newPost);
-  revalidateTag('posts');
-  redirect(`/admin/post/${newPost.id}`);
+  try {
+    await postRepository.create(newPost);
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      return {
+        formState: newPost,
+        errors: [e.message],
+      };
+    }
 
+    return {
+      formState: newPost,
+      errors: ["Erro desconhecido"],
+    };
+  }
+
+  revalidateTag("posts");
+  redirect(`/admin/post/${newPost.id}`);
 }
