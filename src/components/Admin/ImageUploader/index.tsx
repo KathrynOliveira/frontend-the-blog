@@ -7,10 +7,14 @@ import { ImageUpIcon } from "lucide-react";
 import { useRef, useState, useTransition } from "react";
 import { toast } from "react-toastify";
 
-export function ImageUploader() {
+type ImageUploaderProps = {
+  disabled?: boolean;
+}
+
+export function ImageUploader({ disabled = false }: ImageUploaderProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isUploading, startTransition] = useTransition();
-  const [imgUrl, setImgUrl] = useState('')
+  const [imgUrl, setImgUrl] = useState("");
 
   function handleChooseFile() {
     if (!fileInputRef.current) return;
@@ -21,16 +25,16 @@ export function ImageUploader() {
   function handleChange() {
     toast.dismiss();
     if (!fileInputRef.current) {
-      setImgUrl('');
+      setImgUrl("");
       return;
-    };
+    }
     const fileInput = fileInputRef.current;
     const file = fileInput?.files?.[0];
 
     if (!file) {
-       setImgUrl("");
-       return;
-    };
+      setImgUrl("");
+      return;
+    }
 
     if (file.size > IMAGE_UPLOAD_MAX_SIZE) {
       const readableMaxSize = IMAGE_UPLOAD_MAX_SIZE / 1024;
@@ -51,12 +55,12 @@ export function ImageUploader() {
       if (result.error) {
         toast.error(result.error);
         fileInput.value = "";
-        setImgUrl('');
+        setImgUrl("");
         return;
       }
 
       setImgUrl(result.url);
-      toast.success('Imagem enviada');
+      toast.success("Imagem enviada");
     });
 
     fileInput.value = "";
@@ -69,7 +73,7 @@ export function ImageUploader() {
         type="button"
         className="self-start"
         variant="ghost"
-        disabled={isUploading}
+        disabled={isUploading || disabled}
       >
         <ImageUpIcon />
         Enviar uma imagem
@@ -92,7 +96,7 @@ export function ImageUploader() {
         name="file"
         type="file"
         accept="image/*"
-        disabled={isUploading}
+        disabled={isUploading || disabled}
       />
     </div>
   );
