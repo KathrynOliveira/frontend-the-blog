@@ -6,11 +6,13 @@ import { makePartialPublicPost, makePublicPostFromDb, PublicPost } from "@/dto/p
 import { PostModel } from "@/models/post/post-model";
 import { postRepository } from "@/repositories/post";
 import { revalidateTag } from "next/cache";
+import { asyncDelay } from "@/utils/async-delay";
+import { makeRandomString } from "@/utils/make-random-string";
 
 type UpdatePostActionState = {
   formState: PublicPost;
   errors: string[];
-  success?: true;
+  success?: string;
 };
 
 export async function updatePostAction(
@@ -18,6 +20,7 @@ export async function updatePostAction(
   formData: FormData
 ): Promise<UpdatePostActionState> {
   // TODO: verificar se o usuário tá logado
+  await asyncDelay(3000);
 
   if (!(formData instanceof FormData)) {
     return {
@@ -75,6 +78,6 @@ export async function updatePostAction(
   return {
     formState: makePublicPostFromDb(post),
     errors: [],
-    success: true,
+    success: makeRandomString(),
   }
 }
