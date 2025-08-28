@@ -13,7 +13,7 @@ import { updatePostAction } from "@/actions/post/update-post-actions";
 import { useRouter, useSearchParams } from "next/navigation";
 
 type ManagePostFormUpdateProps = {
-  mode: 'update',
+  mode: "update";
   publicPost?: PublicPost;
 };
 
@@ -26,52 +26,55 @@ type ManagePostFormProps =
   | ManagePostFormCreateProps;
 
 export function ManagePostForm(props: ManagePostFormProps) {
-  const { mode } = props
+  const { mode } = props;
   const searchParams = useSearchParams();
-  const created = searchParams.get('created');
-  const router = useRouter()
+  const created = searchParams.get("created");
+  const router = useRouter();
 
   let publicPost;
-  if (mode === 'update') {
+  if (mode === "update") {
     publicPost = props.publicPost;
   }
 
   const actionsMap = {
     update: updatePostAction,
-    create: createPostAction
-  }
+    create: createPostAction,
+  };
 
   const initialState = {
     formState: makePartialPublicPost(publicPost),
     errors: [],
   };
-  const [state, action, isPending] = useActionState(actionsMap[mode], initialState);
+  const [state, action, isPending] = useActionState(
+    actionsMap[mode],
+    initialState
+  );
   const { formState } = state;
   const [contentValue, setContentValue] = useState(publicPost?.content || "");
 
   useEffect(() => {
     if (state.errors.length > 0) {
       toast.dismiss();
-      state.errors.forEach(error => toast.error(error));
+      state.errors.forEach((error) => toast.error(error));
     }
-  }, [state.errors])
-  
-    useEffect(() => {
-      if (state.success) {
-        toast.dismiss();
-        toast.success("Post atualizado com sucesso!");
-      }
-    }, [state.success]);
-  
-   useEffect(() => {
-     if (created === "1") {
-       toast.dismiss();
-       toast.success("Post criado com sucesso!");
-       const url = new URL(window.location.href);
-       url.searchParams.delete("created");
-       router.replace(url.toString());
-     }
-   }, [created, router]);
+  }, [state.errors]);
+
+  useEffect(() => {
+    if (state.success) {
+      toast.dismiss();
+      toast.success("Post atualizado com sucesso!");
+    }
+  }, [state.success]);
+
+  useEffect(() => {
+    if (created === "1") {
+      toast.dismiss();
+      toast.success("Post criado com sucesso!");
+      const url = new URL(window.location.href);
+      url.searchParams.delete("created");
+      router.replace(url.toString());
+    }
+  }, [created, router]);
 
   return (
     <form action={action} className="mb-16">
@@ -127,7 +130,7 @@ export function ManagePostForm(props: ManagePostFormProps) {
           disabled={isPending}
         />
 
-        <ImageUploader disabled={isPending}/>
+        <ImageUploader disabled={isPending} />
 
         <InputText
           labelText="URL da imagem de capa"
