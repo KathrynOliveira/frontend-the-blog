@@ -2,7 +2,16 @@
 
 import { postRepository } from "@/repositories/post";
 import { revalidateTag } from "next/cache";
+import { verifyLoginSession } from "@/lib/login/manage-login";
 export async function deletePostAction(id: string) {
+  const isAuthenticated = await verifyLoginSession();
+
+  if (!isAuthenticated) {
+    return {
+      error: "Faça login novamente em outra aba",
+    };
+  }
+
   if (!id || typeof id !== "string") {
     return {
       error: "Dados inválidos",

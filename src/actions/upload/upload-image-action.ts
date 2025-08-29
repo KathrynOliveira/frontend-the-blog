@@ -2,6 +2,7 @@
 
 import { mkdir, writeFile } from "fs/promises";
 import { extname, resolve } from "path";
+import { verifyLoginSession } from "@/lib/login/manage-login";
 
 type UploadImageActionResult = {
   url: string;
@@ -13,6 +14,12 @@ export async function uploadImageAction(
 ): Promise<UploadImageActionResult> {
 
   const makeResult = ({ url = "", error = "" }) => ({ url, error });
+
+  const isAuthenticated = await verifyLoginSession();
+
+  if (!isAuthenticated) {
+    return makeResult({ error: "Faça login novamente" });
+  }
 
   if (!(formData instanceof FormData)) {
     return makeResult({ error: "Dados inválidos" });
