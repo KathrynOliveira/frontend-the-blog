@@ -1,4 +1,4 @@
-import { MenuAdmin } from "@/components/admin/MenuAdmin";
+import { MenuAdmin } from "@/components/Admin/MenuAdmin";
 import { requireLoginSessionOrRedirect } from "@/lib/login/manage-login";
 
 type AdminPostLayoutProps = {

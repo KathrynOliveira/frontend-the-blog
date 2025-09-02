@@ -1,8 +1,8 @@
 "use server";
 
+import { verifyLoginSession } from "@/lib/login/manage-login";
 import { mkdir, writeFile } from "fs/promises";
 import { extname, resolve } from "path";
-import { verifyLoginSession } from "@/lib/login/manage-login";
 
 type UploadImageActionResult = {
   url: string;
@@ -12,7 +12,6 @@ type UploadImageActionResult = {
 export async function uploadImageAction(
   formData: FormData
 ): Promise<UploadImageActionResult> {
-
   const makeResult = ({ url = "", error = "" }) => ({ url, error });
 
   const isAuthenticated = await verifyLoginSession();
@@ -33,7 +32,6 @@ export async function uploadImageAction(
 
   const uploadMaxSize =
     Number(process.env.NEXT_PUBLIC_IMAGE_UPLOAD_MAX_SIZE) || 921600;
-  
   if (file.size > uploadMaxSize) {
     return makeResult({ error: "Arquivo muito grande" });
   }
@@ -44,7 +42,8 @@ export async function uploadImageAction(
 
   const imageExtension = extname(file.name);
   const uniqueImageName = `${Date.now()}${imageExtension}`;
-  const uploadDir = Number(process.env.IMAGE_UPLOAD_DIRECTORY) || 'uploads';
+
+  const uploadDir = process.env.IMAGE_UPLOAD_DIRECTORY || "uploads";
   const uploadFullPath = resolve(process.cwd(), "public", uploadDir);
   await mkdir(uploadFullPath, { recursive: true });
 
@@ -54,8 +53,9 @@ export async function uploadImageAction(
   const fileFullPath = resolve(uploadFullPath, uniqueImageName);
 
   await writeFile(fileFullPath, buffer);
+
   const imgServerUrl =
-    Number(process.env.IMAGE_SERVER_URL) || "http://localhost:3000/uploads";
+    process.env.IMAGE_SERVER_URL || "http://localhost:3000/uploads";
   const url = `${imgServerUrl}/${uniqueImageName}`;
 
   return makeResult({ url });

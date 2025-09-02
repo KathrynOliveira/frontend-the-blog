@@ -1,17 +1,16 @@
 "use server";
 
-import { PostUpdateSchema } from "@/lib/post/validations";
-import { getZodErrorMessages } from "@/utils/get-zod-error-messages";
 import {
   makePartialPublicPost,
   makePublicPostFromDb,
   PublicPost,
 } from "@/dto/post/dto";
-import { PostModel } from "@/models/post/post-model";
-import { postRepository } from "@/repositories/post";
-import { revalidateTag } from "next/cache";
-import { makeRandomString } from "@/utils/make-random-string";
 import { verifyLoginSession } from "@/lib/login/manage-login";
+import { PostUpdateSchema } from "@/lib/post/validations";
+import { postRepository } from "@/repositories/post";
+import { getZodErrorMessages } from "@/utils/get-zod-error-messages";
+import { makeRandomString } from "@/utils/make-random-string";
+import { revalidateTag } from "next/cache";
 
 type UpdatePostActionState = {
   formState: PublicPost;
@@ -32,7 +31,7 @@ export async function updatePostAction(
     };
   }
 
-  const id = formData.get("id").toString() || "";
+  const id = formData.get("id")?.toString() || "";
 
   if (!id || typeof id !== "string") {
     return {
@@ -60,12 +59,11 @@ export async function updatePostAction(
   }
 
   const validPostData = zodParsedObj.data;
-  const newPost: PostModel = {
+  const newPost = {
     ...validPostData,
   };
 
   let post;
-
   try {
     post = await postRepository.update(id, newPost);
   } catch (e: unknown) {
