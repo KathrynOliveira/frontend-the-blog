@@ -14,6 +14,7 @@ type JwtPayload = {
   username: string;
   expiresAt: Date;
 };
+
 export async function hashPassword(password: string) {
   const hash = await bcrypt.hash(password, 10);
   const base64 = Buffer.from(hash).toString("base64");
@@ -44,14 +45,6 @@ export async function deleteLoginSession() {
   cookieStore.delete(loginCookieName);
 }
 
-export async function signJwt(jwtPayload: JwtPayload) {
-  return new SignJWT(jwtPayload)
-    .setProtectedHeader({ alg: "HS256", typ: "JWT" })
-    .setIssuedAt()
-    .setExpirationTime(loginExpStr)
-    .sign(jwtEncodedKey);
-}
-
 export async function getLoginSession() {
   const cookieStore = await cookies();
 
@@ -76,6 +69,17 @@ export async function requireLoginSessionOrRedirect() {
   if (!isAuthenticated) {
     redirect("/admin/login");
   }
+}
+
+export async function signJwt(jwtPayload: JwtPayload) {
+  return new SignJWT(jwtPayload)
+    .setProtectedHeader({
+      alg: "HS256",
+      typ: "JWT",
+    })
+    .setIssuedAt()
+    .setExpirationTime(loginExpStr)
+    .sign(jwtEncodedKey);
 }
 
 export async function verifyJwt(jwt: string | undefined = "") {

@@ -21,7 +21,6 @@ export async function createPostAction(
   prevState: CreatePostActionState,
   formData: FormData
 ): Promise<CreatePostActionState> {
-  // TODO: verificar se o usuário tá logado
 
   const isAuthenticated = await verifyLoginSession();
 
