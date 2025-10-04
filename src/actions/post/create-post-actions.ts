@@ -1,6 +1,6 @@
 "use server";
 
-import { PostCreateSchema } from "@/lib/post/validations";
+import { PostCreateSchema } from '@/lib/post/schemas';
 import { getZodErrorMessages } from "@/utils/get-zod-error-messages";
 import { makePartialPublicPost, PublicPost } from "@/dto/post/dto";
 import { PostModel } from "@/models/post/post-model";
