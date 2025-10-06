@@ -57,6 +57,8 @@ export async function updatePostAction(
     };
   }
 
+  const newPost = zodParsedObj.data;
+
   const updatePostResponse = await authenticatedApiRequest<PublicPostForApiDto>(
     `/post/me/${id}`,
     {

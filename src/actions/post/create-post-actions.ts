@@ -49,7 +49,7 @@ export async function createPostAction(
     };
   }
 
-   const newPost = zodParsedObj.data;
+  const newPost = zodParsedObj.data;
 
   const createPostResponse = await authenticatedApiRequest<PublicPostForApiDto>(
     `/post/me`,
