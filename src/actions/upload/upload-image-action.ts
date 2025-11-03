@@ -46,10 +46,12 @@ export async function uploadImageAction(
       body: formData,
     }
   );
-
+  
+  console.log(uploadResponse);
   if (!uploadResponse.success) {
     return makeResult({ error: uploadResponse.errors[0] });
   }
+
 
   const url = `${process.env.IMAGE_SERVER_URL}${uploadResponse.data.url}`;
 
