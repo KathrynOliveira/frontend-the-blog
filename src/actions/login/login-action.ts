@@ -1,12 +1,11 @@
 "use server";
 
-import { asyncDelay } from "@/utils/async-delay";
+import { verifyHoneypotInput } from "@/utils/verify-honeypot-input";
 import { apiRequest } from "@/utils/api-request";
 import { getZodErrorMessages } from "@/utils/get-zod-error-messages";
 import { LoginSchema } from "@/lib/login/schemas";
 import { createLoginSessionFromApi } from "@/lib/login/manage-login";
 import { redirect } from "next/navigation";
-
 
 type LoginActionState = {
   email: string;
@@ -22,7 +21,15 @@ export async function loginAction(state: LoginActionState, formData: FormData) {
       errors: ["Login not allowed"],
     };
   }
-  await asyncDelay(5000); // Vou manter
+
+  const isBot = await verifyHoneypotInput(formData, 5000);
+
+  if (isBot) {
+    return {
+      email: "",
+      errors: ["nice"],
+    };
+  }
 
   if (!(formData instanceof FormData)) {
     return {
@@ -31,7 +38,7 @@ export async function loginAction(state: LoginActionState, formData: FormData) {
     };
   }
 
-  // 
+  //
   const formObj = Object.fromEntries(formData.entries());
   const formEmail = formObj?.email?.toString() || "";
   const parsedFormData = LoginSchema.safeParse(formObj);
