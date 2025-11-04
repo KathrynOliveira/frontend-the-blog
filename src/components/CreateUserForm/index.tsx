@@ -7,7 +7,7 @@ import { Button } from "../Button";
 import { useActionState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { PublicUserSchema } from "@/lib/user/schemas";
-import { createUserAction } from "@/actions/user/create-user-actions";
+import { createUserAction } from "@/actions/user/create-user-action";
 import { HoneypotInput } from "../HoneypotInput";
 
 
